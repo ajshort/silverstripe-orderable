@@ -7,10 +7,11 @@
 class Orderable extends DataObjectDecorator {
 
 	public function extraStatics() {
-		return array(
-			'db' => array('Sort' => 'Int'),
-			'default_sort' => '"Sort"'
-		);
+		return array('db' => array('Sort' => 'Int'));
+	}
+
+	public function augmentSQL($query) {
+		if (!$query->orderby) $query->orderby('"Sort"');
 	}
 
 	public function onBeforeWrite() {
