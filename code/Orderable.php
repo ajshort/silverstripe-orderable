@@ -16,7 +16,7 @@ class Orderable extends DataObjectDecorator {
 	public function onBeforeWrite() {
 		if (!$this->owner->Sort) {
 			$max = DB::query(sprintf(
-				'SELECT MAX("Sort") + 1 FROM "%s"', $this->owner->class
+				'SELECT MAX("Sort") + 1 FROM "%s"', $this->ownerBaseClass
 			));
 			$this->owner->Sort = $max->value();
 		}

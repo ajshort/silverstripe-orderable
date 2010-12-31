@@ -37,11 +37,17 @@ class OrderableComplexTableField extends ComplexTableField {
 		$sort  = $this->orderField;
 		$order = $request->postVar('ids');
 
+		// Get the table the sort field exists on.
+		$classes = ClassInfo::ancestry($this->sourceClass());
+		foreach (array_reverse($classes) as $table) {
+			if (singleton($table)->hasOwnTableDatabaseField($sort)) {
+				break;
+			}
+		}
+
 		// Populate each object with a sort value.
 		foreach ($items as $item) if (!$item->$sort) {
-			$table = $item->class;
 			$query = DB::query("SELECT MAX(\"$sort\") + 1 FROM \"$table\"");
-
 			$item->$sort = $query->value();
 			$item->write();
 		}
