@@ -23,4 +23,12 @@ class Orderable extends DataObjectDecorator {
 		}
 	}
 
+	public function updateCMSFields($fields) {
+		$fields->removeByName('Sort');
+	}
+
+	public function updateFrontEndFields($fields) {
+		$fields->removeByName('Sort');
+	}
+
 }
