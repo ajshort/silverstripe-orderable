@@ -24,7 +24,7 @@
 					$('a.drag', item).attr('href'),
 					{ 'ids[]': ids.get() },
 					function() {
-						Behaviour.apply();
+						Behaviour.apply(table.get(0));
 						table.sortable('enable');
 					});
 			}
