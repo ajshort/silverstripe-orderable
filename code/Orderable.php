@@ -11,7 +11,18 @@ class Orderable extends DataObjectDecorator {
 	}
 
 	public function augmentSQL($query) {
-		if (!$query->orderby) $query->orderby('"Sort"');
+		if ($query->orderby)
+			return;
+		
+		// Only add the "orderby" clause if we can find the "Sort"
+		// column for a table involved in this query.
+		$db = DB::getConn();
+		$fields = array();
+		if ($query->from) foreach ($query->from as $table => $ignored) {
+			$fields = array_merge($fields, $db->fieldList($table));
+		}
+		if (array_key_exists('Sort', $fields))
+			$query->orderby('"Sort"');
 	}
 
 	public function onBeforeWrite() {
