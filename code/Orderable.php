@@ -11,7 +11,7 @@ class Orderable extends DataObjectDecorator {
 	}
 
 	public function augmentSQL($query) {
-		if (!$query->orderby) $query->orderby('"Sort"');
+		if (!$query->orderby && !$query->delete) $query->orderby('"Sort"');
 	}
 
 	public function onBeforeWrite() {
